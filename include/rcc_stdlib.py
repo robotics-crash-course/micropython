@@ -1,18 +1,17 @@
 from machine import Pin, ADC, I2C
-import include.rcc_pins 
+from include.rcc_pins import RCC_Pins
 
 class Raft:
-    def __init__(self):
-        self.pot_pin = RCC_POT
-        self.button_pin = RCC_BUTTON
-        self.sda_pin = RCC_I2C_SDA
-        self.scl_pin = RCC_I2C_SCL
+    @staticmethod
+    def read_pot():
+        return ADC(RCC_Pins.RCC_POT).read_u16()
 
-    def read_pot(self):
-        return ADC(self.pot_pin).read_u16()
+    @staticmethod
+    def read_button():
+        return Pin(RCC_Pins.RCC_BUTTON, Pin.IN, Pin.PULL_UP).value()
 
-    def read_button(self):
-        return Pin(self.button_pin, Pin.IN, Pin.PULL_UP).value()
+    @staticmethod
+    def setup_i2c():
+        return I2C(1, sda=Pin(RCC_Pins.RCC_I2C_SDA), scl=Pin(RCC_Pins.RCC_I2C_SCL), freq=400000)
 
-    def setup_i2c(self):
-        return I2C(1, sda=Pin(self.sda_pin), scl=Pin(self.scl_pin), freq=400000)
+

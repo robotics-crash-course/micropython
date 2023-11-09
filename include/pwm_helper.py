@@ -1,11 +1,9 @@
 from machine import Pin, PWM
-import include.rcc_pins 
-import include.rcc_stdlib
+from include.rcc_pins import RCC_Pins
 
 class Servo:
     def __init__(self):
-        self.pin = RCC_SERVO
-        self.pwm = PWM(Pin(self.pin))
+        self.pwm = PWM(Pin(RCC_Pins.RCC_SERVO))
         self.pwm.freq(50)
 
     def position(self, pos_scaled):
@@ -21,22 +19,16 @@ class Servo:
 
 class Motors:
     def __init__(self):
-        self.ena = RCC_ENA
-        self.enb = RCC_ENB
-        self.in1_pin = RCC_IN1
-        self.in2_pin = RCC_IN2
-        self.in3_pin = RCC_IN3
-        self.in4_pin = RCC_IN4
         #setup pwm
-        self.pwm_a = PWM(Pin(self.ena))
+        self.pwm_a = PWM(Pin(RCC_Pins.RCC_ENA))
         self.pwm_a.freq(1000)
-        self.pwm_b = PWM(Pin(self.enb))
+        self.pwm_b = PWM(Pin(RCC_Pins.RCC_ENB))
         self.pwm_b.freq(1000)
         #setup gpio
-        self.in1 = Pin(self.in1_pin, Pin.OUT)
-        self.in2 = Pin(self.in2_pin, Pin.OUT)
-        self.in3 = Pin(self.in3_pin, Pin.OUT)
-        self.in4 = Pin(self.in4_pin, Pin.OUT)
+        self.in1 = Pin(RCC_Pins.RCC_IN1, Pin.OUT)
+        self.in2 = Pin(RCC_Pins.RCC_IN2, Pin.OUT)
+        self.in3 = Pin(RCC_Pins.RCC_IN3, Pin.OUT)
+        self.in4 = Pin(RCC_Pins.RCC_IN4, Pin.OUT)
 
     def MotorPower(self, lp, rp):
         """
