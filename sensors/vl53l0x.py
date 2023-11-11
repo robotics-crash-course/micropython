@@ -3,6 +3,7 @@ import ustruct
 import utime
 # from machine import Timer
 # import time
+# import traceback
 
 _IO_TIMEOUT = 1000
 _SYSRANGE_START = const(0x00)
@@ -111,32 +112,35 @@ class TimeoutError(RuntimeError):
 
 class VL53L0X():
     def __init__(self, i2c, address=0x29):
-        self.i2c = i2c
-        self.address = address
-        utime.sleep_ms(100) # give the I2C time to init
-        self.init()
-        self._started = False
-        self.measurement_timing_budget_us = 40000
-        self.set_measurement_timing_budget(self.measurement_timing_budget_us)
-        self.enables = {"tcc": 0,
-                        "dss": 0,
-                        "msrc": 0,
-                        "pre_range": 0,
-                        "final_range": 0}
-        self.timeouts = {"pre_range_vcsel_period_pclks": 0,
-                         "msrc_dss_tcc_mclks": 0,
-                         "msrc_dss_tcc_us": 0,
-                         "pre_range_mclks": 0,
-                         "pre_range_us": 0,
-                         "final_range_vcsel_period_pclks": 0,
-                         "final_range_mclks": 0,
-                         "final_range_us": 0
-                         }
-        self.vcsel_period_type = ["VcselPeriodPreRange", "VcselPeriodFinalRange"]
-        self.set_Vcsel_pulse_period(self.vcsel_period_type[0], 12)
-        self.set_Vcsel_pulse_period(self.vcsel_period_type[1], 8)
+        try:
+            self.i2c = i2c
+            self.address = address
+            utime.sleep_ms(100) # give the I2C time to init
+            self.init()
+            self._started = False
+            self.measurement_timing_budget_us = 40000
+            self.set_measurement_timing_budget(self.measurement_timing_budget_us)
+            self.enables = {"tcc": 0,
+                            "dss": 0,
+                            "msrc": 0,
+                            "pre_range": 0,
+                            "final_range": 0}
+            self.timeouts = {"pre_range_vcsel_period_pclks": 0,
+                            "msrc_dss_tcc_mclks": 0,
+                            "msrc_dss_tcc_us": 0,
+                            "pre_range_mclks": 0,
+                            "pre_range_us": 0,
+                            "final_range_vcsel_period_pclks": 0,
+                            "final_range_mclks": 0,
+                            "final_range_us": 0
+                            }
+            self.vcsel_period_type = ["VcselPeriodPreRange", "VcselPeriodFinalRange"]
+            self.set_Vcsel_pulse_period(self.vcsel_period_type[0], 12)
+            self.set_Vcsel_pulse_period(self.vcsel_period_type[1], 8)
+        except:
+            print("EXC")#traceback.print_exc()
 
-    def get_reading(self):
+    def ping(self):
         self.start()
         distance = self.read()
         self.stop()
