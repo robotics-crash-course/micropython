@@ -31,23 +31,7 @@ while True:
     
     if state == State.INTEGRATE:
         # print("math")
-        theta += imu.getAngVelZ()*duration/10000000
+        theta += imu.getAngVelZ()*duration/1000000
         prev = cur
-
-    
-        
-
-
-# while True:
-    # cur = utime.ticks_us()
-    # # imu.update_pico()
-    # # print(imu.getAngVelZ())
-    # # print(cur)
-
-    
-    
-    # if (cur - prev) > duration:
-    #     print("timestep")
-
-
+        state = 0
     
