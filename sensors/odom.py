@@ -21,8 +21,8 @@ class Odom:
         count = 0
 
 
-Left_Odom = Odom("left")
-Right_Odom = Odom("right")
+# Left_Odom = Odom("left")
+# Right_Odom = Odom("right")
 
-while True:
-    print(Left_Odom.getCount(), Right_Odom.getCount())
+# while True:
+#     print(Left_Odom.getCount(), Right_Odom.getCount())
