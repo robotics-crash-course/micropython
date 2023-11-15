@@ -30,5 +30,9 @@ class Raft:
         sleep(0.001)
 
         return I2C(1, sda=Pin(RCC_Pins.RCC_I2C_SDA), scl=Pin(RCC_Pins.RCC_I2C_SCL), freq=400000)
+    
+    @staticmethod
+    def led_toggle():
+        Pin("LED", Pin.OUT).toggle()
 
 
