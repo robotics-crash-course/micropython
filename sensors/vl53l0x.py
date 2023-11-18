@@ -1,9 +1,6 @@
 from micropython import const
 import ustruct
 import utime
-# from machine import Timer
-# import time
-# import traceback
 
 _IO_TIMEOUT = 1000
 _SYSRANGE_START = const(0x00)
@@ -138,9 +135,9 @@ class VL53L0X():
             self.set_Vcsel_pulse_period(self.vcsel_period_type[0], 12)
             self.set_Vcsel_pulse_period(self.vcsel_period_type[1], 8)
         except:
-            print("EXC")#traceback.print_exc()
+            print(" ")#traceback.print_exc()
 
-    def ping(self):
+    def get_distance(self):
         self.start()
         distance = self.read()
         self.stop()
