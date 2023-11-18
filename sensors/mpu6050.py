@@ -24,7 +24,15 @@ class MPU6050():
         self.az_sum = 0
         self.wx_sum = 0
         self.wy_sum = 0
-        self.wz_sum = 0
+        self.wz_sum = 0    
+
+        # self.setup 
+        self.begin_pico()
+        self.calibrate()
+
+#    def setup(self):
+#        self.begin_pico()
+#        self.calibrate()
 
     #writeto_mem(addr, reg, data)
 
@@ -93,6 +101,7 @@ class MPU6050():
         return (self.raw_wy / self.GYRO_SENSITIVITY) - self.wy_bias
 
     def getAngVelZ(self):
+        self.update_pico()
         return (self.raw_wz / self.GYRO_SENSITIVITY) - self.wz_bias
 
     def getTemp(self):

@@ -4,7 +4,6 @@ class Angle:
     def __init__(self, imu_input):
         self.imu = imu_input
         self.theta = 0
-        self.state = 0
         #period is ms
         self.timer = Timer(mode=Timer.PERIODIC, period=10, callback=self.update)
 

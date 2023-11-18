@@ -18,7 +18,7 @@ imu.calibrate()
 utime.sleep_ms(1000)
 
 #setup angle to track imu
-angle = Angle(imu)
+# angle = Angle(imu)
 #setup motors
 mymotors = Motors()
 
@@ -32,7 +32,7 @@ boost_power = 0
 
 
 #setup controller
-controller = PID_Control(0.5,0,0,0.01,0.1,-25,25, False, True)
+controller = PID_Control(0.5,0,0,0.02,0.1,-25,25, False, True)
 
 # #calculate boost power
 def calculate_controller(timer):
