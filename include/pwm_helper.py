@@ -1,12 +1,14 @@
 from machine import Pin, PWM
-from include.rcc_pins import RCC_Pins
+from include.rcc_pins import Pins
 
 class Servo:
-    def __init__(self):
-        self.pwm = PWM(Pin(RCC_Pins.RCC_SERVO))
+    def setup(self, servo_pin_input=Pins.SERVO):
+        self.servo_pin = servo_pin_input
+        self.pwm = PWM(Pin(self.servo_pin))
         self.pwm.freq(50)
+        return f"SERVO SETUP ON {self.servo_pin}"
 
-    def position(self, pos_scaled):
+    def set_position(self, pos_scaled):
         """
         Takes in values 0-180, scales to left to right of servo
         """
@@ -18,26 +20,35 @@ class Servo:
         self.pwm.duty_u16(pos_raw)
 
 class Motors:
-    def __init__(self):
+    def setup(self, ena_input=Pins.ENA, in1_input=Pins.IN1, in2_input=Pins.IN2, in3_input=Pins.IN3, in4_input=Pins.IN4, enb_input=Pins.ENB):
+        self.ena_pin = ena_input
+        self.in1_pin = in1_input
+        self.in2_pin = in2_input
+        self.in3_pin = in3_input
+        self.in4_pin = in4_input
+        self.enb_pin = enb_input
+        
         #setup pwm
-        self.pwm_a = PWM(Pin(RCC_Pins.RCC_ENA))
+        self.pwm_a = PWM(Pin(self.ena_pin))
         self.pwm_a.freq(1000)
-        self.pwm_b = PWM(Pin(RCC_Pins.RCC_ENB))
+        self.pwm_b = PWM(Pin(self.enb_pin))
         self.pwm_b.freq(1000)
         #setup gpio
-        self.in1 = Pin(RCC_Pins.RCC_IN1, Pin.OUT)
-        self.in2 = Pin(RCC_Pins.RCC_IN2, Pin.OUT)
-        self.in3 = Pin(RCC_Pins.RCC_IN3, Pin.OUT)
-        self.in4 = Pin(RCC_Pins.RCC_IN4, Pin.OUT)
+        self.in1 = Pin(self.in1_pin, Pin.OUT)
+        self.in2 = Pin(self.in2_pin, Pin.OUT)
+        self.in3 = Pin(self.in3_pin, Pin.OUT)
+        self.in4 = Pin(self.in4_pin, Pin.OUT)
 
-    def MotorPower(self, lp, rp):
+        return f"LEFT SETUP ON {self.ena_pin},{self.in1_pin},{self.in2_pin}, RIGHT SETUP ON {self.in3_pin},{self.in4_pin},{self.enb_pin}"
+
+    def set_power(self, lp, rp):
         """
         takes in 0-100 -> scaled for 0-65500 (16 bit)
         """
         if (lp > 100 or rp > 100):
-            raise ValueError("Motor Power cannot go over 100")
+            raise ValueError("Motor power cannot go over 100")
         if (lp < -100 or rp < -100):
-            raise ValueError("Motor Power cannot go below -100")
+            raise ValueError("Motor power cannot go below -100")
 
         #handle directionality
         if(lp < 0):
