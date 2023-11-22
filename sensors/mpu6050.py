@@ -9,7 +9,6 @@ def bytes_tosignedint(msb, lsb):
     else:
         return value
         
-
 class MPU6050():
     def __init__(self, i2c_bus):
         self.mpu_addr = 0x68 #104
@@ -26,16 +25,11 @@ class MPU6050():
         self.wy_sum = 0
         self.wz_sum = 0    
 
-        # self.setup 
         self.begin_pico()
         self.calibrate()
 
-#    def setup(self):
-#        self.begin_pico()
-#        self.calibrate()
 
     #writeto_mem(addr, reg, data)
-
     def begin_pico(self):
         #power management
         self.mpu_i2c.writeto_mem(self.mpu_addr, 0x6B, self.buf1)
@@ -47,7 +41,6 @@ class MPU6050():
         self.mpu_i2c.writeto_mem(self.mpu_addr, 0x1C, self.buf1)
 
     #readfrom_mem_into(addr, memaddr, buf)
-
     def update_pico(self):
         """
         Read all data from the mpu6050 and store into class variables 
@@ -85,26 +78,31 @@ class MPU6050():
         self.wy_bias = self.wy_sum / self.n
         self.wz_bias = self.wz_sum / self.n
 
-    def getAccelX(self):
+    def get_accel_x(self):
+        self.update_pico()
         return (self.raw_ax / self.ACCEL_SENSITIVITY) - self.ax_bias
 
-    def getAccelY(self):
+    def get_accel_y(self):
+        self.update_pico()
         return (self.raw_ay / self.ACCEL_SENSITIVITY) - self.ay_bias
 
-    def getAccelZ(self):
+    def get_accel_z(self):
+        self.update_pico()
         return (self.raw_az / self.ACCEL_SENSITIVITY) - self.az_bias
 
-    def getAngVelX(self):
+    def get_angvel_x(self):
+        self.update_pico()
         return (self.raw_wx / self.GYRO_SENSITIVITY) - self.wx_bias
     
-    def getAngVelY(self):
+    def get_angvel_y(self):
+        self.update_pico()
         return (self.raw_wy / self.GYRO_SENSITIVITY) - self.wy_bias
 
-    def getAngVelZ(self):
+    def get_angvel_z(self):
         self.update_pico()
         return (self.raw_wz / self.GYRO_SENSITIVITY) - self.wz_bias
 
-    def getTemp(self):
+    def get_temp(self):
         #todo: name these constants
         return (self.raw_temp / 340) + 36.53
 

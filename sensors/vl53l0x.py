@@ -138,9 +138,15 @@ class VL53L0X():
             print(" ")#traceback.print_exc()
 
     def get_distance(self):
+        #take two readings and return second one... not ideal but there is a lag?
         self.start()
         distance = self.read()
         self.stop()
+
+        self.start()
+        distance = self.read()
+        self.stop()
+
         return distance
 
     def _registers(self, register, values=None, struct='B'):

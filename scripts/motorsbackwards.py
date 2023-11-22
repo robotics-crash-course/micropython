@@ -1,5 +1,6 @@
 from include.pwm_helper import Motors
 
 mymotors = Motors()
+mymotors.setup()
 
-mymotors.MotorPower(-100,-100)
+mymotors.set_power(-100,-100)
