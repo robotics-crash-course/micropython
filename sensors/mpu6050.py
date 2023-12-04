@@ -27,6 +27,7 @@ class MPU6050():
 
         self.begin_pico()
         self.calibrate()
+        # print("IMU SETUP ON", i2c_bus)
 
 
     #writeto_mem(addr, reg, data)
@@ -42,20 +43,22 @@ class MPU6050():
 
     #readfrom_mem_into(addr, memaddr, buf)
     def update_pico(self):
-        """
-        Read all data from the mpu6050 and store into class variables 
-        (Note: These are the raw values, bias is applied in the get funcs)
-        """
-        self.mpu_i2c.readfrom_mem_into(self.mpu_addr, 0x3B, self.buf14)
+        try:
+            """
+            Read all data from the mpu6050 and store into class variables 
+            (Note: These are the raw values, bias is applied in the get funcs)
+            """
+            self.mpu_i2c.readfrom_mem_into(self.mpu_addr, 0x3B, self.buf14)
 
-        self.raw_ax = bytes_tosignedint(self.buf14[0], self.buf14[1])
-        self.raw_ay = bytes_tosignedint(self.buf14[2], self.buf14[3])
-        self.raw_az = bytes_tosignedint(self.buf14[4], self.buf14[5])
-        self.raw_temp = bytes_tosignedint(self.buf14[6], self.buf14[7])
-        self.raw_wx = bytes_tosignedint(self.buf14[8], self.buf14[9])
-        self.raw_wy = bytes_tosignedint(self.buf14[10], self.buf14[11])
-        self.raw_wz = bytes_tosignedint(self.buf14[12], self.buf14[13])
-
+            self.raw_ax = bytes_tosignedint(self.buf14[0], self.buf14[1])
+            self.raw_ay = bytes_tosignedint(self.buf14[2], self.buf14[3])
+            self.raw_az = bytes_tosignedint(self.buf14[4], self.buf14[5])
+            self.raw_temp = bytes_tosignedint(self.buf14[6], self.buf14[7])
+            self.raw_wx = bytes_tosignedint(self.buf14[8], self.buf14[9])
+            self.raw_wy = bytes_tosignedint(self.buf14[10], self.buf14[11])
+            self.raw_wz = bytes_tosignedint(self.buf14[12], self.buf14[13])
+        except Exception as e:
+            print(e)
 
     def calibrate(self):
         """
