@@ -29,12 +29,10 @@ class YawControl():
 
     def drive(self):
         self.stop_flag = False
-        self.second_thread = _thread.start_new_thread(self.omega_controller_thread, ())
+        self.second_thread = _thread.start_new_thread(self.controller_thread, ())
 
     def stop(self):
-        # self.update_base_power(0)
-        # self.motors.set_power(0,0)
-        # self.second_thread = _thread.exit()
+        self.motors.set_power(0,0)
         self.stop_flag = True
 
     def update_gains(self, kp, ki, kd):
@@ -48,25 +46,26 @@ class YawControl():
     def update_desired_yaw(self, yaw_r):
         self.desired_yaw = yaw_r
 
-    def update_omega(self, timer):
-        self.boost = int(self.controller.pid(self.desired_omega, self.imu.get_angvel_z()))
+    # def update_omega(self, timer):
+    #     if self.stop_flag:
+    #         _thread.exit()
+    #     else:
+    #         self.boost = int(self.controller.pid(self.desired_omega, self.imu.get_angvel_z()))
+    #         self.motors.set_power(self.base_power-self.boost, self.base_power+self.boost)
+
+    # def omega_controller_thread(self):
+    #     timer = Timer(mode=Timer.PERIODIC, period=10, callback=self.update_omega)
+
+    def update(self, timer):
         if self.stop_flag:
-            self.motors.set_power(0,0)
+            _thread.exit()
         else:
+            self.theta += self.imu.get_angvel_z()*0.02
+            self.boost = int(self.controller.pid(self.desired_yaw, self.theta))
             self.motors.set_power(self.base_power-self.boost, self.base_power+self.boost)
 
-    def omega_controller_thread(self):
-        timer = Timer(mode=Timer.PERIODIC, period=10, callback=self.update_omega)
-
-    # def update(self, timer):
-    #     # with self.theta_lock:
-    #     #     with self.boost_lock:
-    #     self.theta += self.imu.get_angvel_z()*0.01
-    #     self.boost = int(self.controller.pid(self.desired_yaw, self.theta))
-    #     self.motors.set_power(self.base_power-self.boost, self.base_power+self.boost)
-
-    # def controller_thread(self):
-    #     timer = Timer(mode=Timer.PERIODIC, period=10, callback=self.update)
+    def controller_thread(self):
+        timer = Timer(mode=Timer.PERIODIC, period=20, callback=self.update)
 
 
 

@@ -7,7 +7,9 @@ myraft = Raft()
 myraft.led_on()
 myraft.setup_button()
 
-mycontroller = YawControl(0, 70)
+des_theta = 0
+
+mycontroller = YawControl(des_theta, 70)
 
 myleftodom = Odom()
 myleftodom.setup(Pins.LEFT_ODOM)
@@ -17,18 +19,15 @@ myrightodom.setup(Pins.RIGHT_ODOM)
 state = 0
 
 while True:
-    print(state, myleftodom.get_count(), mycontroller.theta, mycontroller.boost)
+    print(myleftodom.get_count(), des_theta)
 
     if state == 0:
         if myraft.get_button():
             mycontroller.drive()
             state = 1
-            myleftodom.reset_count()
 
     if state == 1:
         if myleftodom.get_count() >= 200:
-            mycontroller.stop()
-            state = 0
-
-
-    
+            des_theta += 90
+            mycontroller.update_desired_yaw(des_theta)
+            myleftodom.reset_count()
