@@ -13,8 +13,8 @@ odom = Odom()
 odom.setup(Pins.LEFT_ODOM)
 
 vel = Differentiator(0.1, 0.02)
-velcontroller = PID_Control(3, 0, 0, 0.02, 0.1, -100, 100, False, True)
-velcontroller.setDeadbands(-35, 35)
+velcontroller = PID_Control(3, 0, 0, 0.02, 0.1, 0, 100, False, True)
+velcontroller.setDeadbands(0, 35)
 
 
 velocity = 0
@@ -25,12 +25,9 @@ def vel_callback(timer):
     global velocity, controller_output
     velocity = vel.differentiate(odom.get_count())
 
-    scaled_pot = ((myraft.get_pot()*2 - 65535)*150)/65535
+    scaled_pot = (myraft.get_pot()*150)/65535
     des_vel = round(scaled_pot)
-    if des_vel <= 0:
-        controller_output = velcontroller.pid(des_vel, -velocity)
-    else:
-        controller_output = velcontroller.pid(des_vel, velocity)
+    controller_output = velcontroller.pid(des_vel, velocity)
     mymotors.set_power(round(controller_output), 0)
 
     print(odom.get_count(), velocity, des_vel, controller_output)
