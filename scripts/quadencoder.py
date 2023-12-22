@@ -15,5 +15,5 @@ rightodom = Directional_Odom()
 rightodom.setup(18,19)
 
 while True:
-    print(rightodom.count)
+    print(leftodom.count, rightodom.count)
 

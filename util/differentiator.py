@@ -5,6 +5,8 @@ class Differentiator():
         self.ts = ts
        
         self.beta = (2*sigma - ts) / (2*sigma + ts)
+        self.y_dot = 0
+        self.y_d1 = 0
 
     def differentiate(self, y):
         """

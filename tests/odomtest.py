@@ -1,5 +1,7 @@
 from sensors.odom import Odom
 
-myleftencoder = Odom("left")
+myleftencoder = Odom()
+myleftencoder.setup(21)
 
-myrightencoder = Odom("right")
+while True:
+    print(myleftencoder.count)

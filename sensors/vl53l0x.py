@@ -139,15 +139,18 @@ class VL53L0X():
 
     def get_distance(self):
         #take two readings and return second one... not ideal but there is a lag?
+        self.distance = 0
         self.start()
-        distance = self.read()
+        self.distance = self.read()
         self.stop()
 
         self.start()
-        distance = self.read()
+        self.distance = self.read()
         self.stop()
+        
+        self.intdist = int(self.distance)
 
-        return distance
+        return self.intdist
 
     def _registers(self, register, values=None, struct='B'):
         if values is None:

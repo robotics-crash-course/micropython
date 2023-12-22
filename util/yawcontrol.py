@@ -18,11 +18,11 @@ class YawController:
         self.timer = Timer(mode=Timer.PERIODIC, period=20, callback=self.update)
 
     def update(self, timer):
-        self.imu.update_pico()
-        self.theta += self.imu.getAngVelZ()*0.02
+        # self.imu.update_pico()
+        self.theta += self.imu.get_angvel_z()*0.02
         self.boost = self.controller.pid(self.desired_angle, self.theta)
 
     def drive(self):
         self.int_boost = int(self.boost)
-        self.motors.MotorPower(self.base_power - self.int_boost, self.base_power+self.int_boost)
+        self.motors.set_power(self.base_power - self.int_boost, self.base_power+self.int_boost)
 

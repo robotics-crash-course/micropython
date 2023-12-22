@@ -1,9 +1,12 @@
-from include.rcc_stdlib import Raft
+from include.rcc_library import Raft
 from include.pwm_helper import Motors
 
 # Raft.led_toggle()
 
 mymotors = Motors()
+mymotors.setup()
+myraft = Raft()
+myraft.led_on()
 
-if __name__ == "__main__": 
-    mymotors.MotorPower(100, 100)
+while True:
+    mymotors.set_power(100,100)

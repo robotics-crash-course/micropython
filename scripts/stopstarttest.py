@@ -26,7 +26,7 @@ while True:
             myleftodom.reset_count()
 
     if state == 1:
-        if myleftodom.get_count() >= 200:
+        if myleftodom.get_count() >= 100:
             mycontroller.stop()
             state = 0
 
