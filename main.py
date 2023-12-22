@@ -1,0 +1,3 @@
+#IMPORT ONE SCRIPT HERE IF WANT CODE TO RUN ON PICO WHEN NOT PLUGGED INTO COMPUTER
+#example:
+# import scripts.setupalltest
