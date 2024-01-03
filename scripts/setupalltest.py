@@ -1,8 +1,8 @@
 from include.rcc_pins import Pins
 from include.rcc_library import Raft
 from include.pwm_helper import Motors, Servo
-from sensors.mpu6050 import MPU6050
 from sensors.odom import Directional_Odom
+from sensors.mpu6050 import MPU6050
 from sensors.vl53l0x import VL53L0X
 
 myraft = Raft() #make instance of raft
@@ -21,12 +21,11 @@ myservo = Servo()
 myservo.setup()
 
 #odometry
-#NOTE NEED TO UPDATE THESE AS VARIABLES~~
 myleftodom = Directional_Odom()
-myleftodom.setup(18,19)
+myleftodom.setup(Pins.LEFT_DIR, Pins.LEFT_INT)
 
 myrightodom = Directional_Odom()
-myrightodom.setup(20,21)
+myrightodom.setup(Pins.RIGHT_DIR, Pins.RIGHT_INT)
 
 #lidar
 mylidar = VL53L0X(myraft.i2c_bus)
