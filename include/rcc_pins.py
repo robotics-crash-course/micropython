@@ -17,6 +17,8 @@ class Pins:
     # Raft Interfaces
     POT = 28
     BUTTON = 22
-    # Optical Interrupt Sensors for Odom
-    LEFT_ODOM = 21
-    RIGHT_ODOM = 13
+    # Directional Odom
+    LEFT_DIR = 18
+    LEFT_INT = 19
+    RIGHT_DIR = 20
+    RIGHT_INT = 21

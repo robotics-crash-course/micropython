@@ -28,7 +28,6 @@ class Raft:
         self.button = Pin(self.button_pin, Pin.IN, Pin.PULL_UP)
         self.button_pressed = False
         self.button.irq(trigger=Pin.IRQ_FALLING, handler=self.button_callback)
-        # print("BUTTON SETUP ON ", self.button_pin)
     
     def button_callback(self, pin):
         self.button_pressed = True
