@@ -5,7 +5,6 @@ from utime import sleep
 class Raft:
     def __init__(self):
         self.led = Pin("LED", Pin.OUT)
-        self.button_pressed = False
 
     def led_toggle(self):
         self.led.toggle()
@@ -26,18 +25,20 @@ class Raft:
     def setup_button(self, button_pin_input=Pins.BUTTON):
         self.button_pin = button_pin_input
         self.button = Pin(self.button_pin, Pin.IN, Pin.PULL_UP)
-        self.button_pressed = False
-        self.button.irq(trigger=Pin.IRQ_FALLING, handler=self.button_callback)
-    
-    def button_callback(self, pin):
-        self.button_pressed = True
 
     def get_button(self):
-        if self.button_pressed:
-            self.button_pressed = False #reset button flag
-            return True
-        else:
-            return False
+        #true if GPIO LOW
+        return self.button.value() == 0
+
+    def setup_button_counter(self):
+        self.button.irq(trigger=Pin.IRQ_FALLING, handler=self.increase_counter)
+        self.counter = 0
+
+    def increase_counter(self, pin):
+        self.counter += 1
+
+    def button_counter(self):
+        return self.counter
 
     def setup_pot(self, pot_pin_input=Pins.POT):
         self.pot_pin = pot_pin_input
