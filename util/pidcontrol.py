@@ -1,12 +1,9 @@
-"""
-SPDX-License-Identifier: GPL-3.0-or-later
-pidcontrol.py   based on Introduction to Feedback Control using
-                Design Studies by Randal W Beard, Timothy W.
-                McLain, Cammy Peterson, & Marc Killpack
-                ISBN-13: 978-1073396719
-
-Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
-"""                                                                                                 
+# SPDX-License-Identifier: GPL-3.0-or-later
+# pidcontrol.py   Based on Introduction to Feedback Control using
+#                 Design Studies by Randal W Beard, Timothy W.
+#                 McLain, Cammy Peterson, & Marc Killpack
+#                 ISBN-13: 978-1073396719
+# Copyright (C) 2023-2024 Jeannette Circe <jett@circe.com>
 class PID_Control:
     def __init__(self, kp=0.0, ki=0.0, kd=0.0, Ts = 0.01, sigma=0.05, lowerLimit=0, upperLimit=100, errorDotEnabled=False, antiWindupEnabled=False):
         self.kp = kp

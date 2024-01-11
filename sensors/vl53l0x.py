@@ -1,6 +1,4 @@
-"""
-From https://github.com/kevinmcaleer/vl53l0x
-"""
+# From https://github.com/kevinmcaleer/vl53l0x
 
 from micropython import const
 import ustruct

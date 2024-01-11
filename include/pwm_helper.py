@@ -1,8 +1,6 @@
-"""
-SPDX-License-Identifier: GPL-3.0-or-later
-pwm_helper.py - Interface for Servo and L298N motor controller
-Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
-"""
+# SPDX-License-Identifier: GPL-3.0-or-later
+# pwm_helper.py - Interface for Servo and L298N motor controller
+# Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
 
 from machine import Pin, PWM
 from include.rcc_pins import Pins

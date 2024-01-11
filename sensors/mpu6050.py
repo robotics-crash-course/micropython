@@ -1,8 +1,6 @@
-"""
-SPDX-License-Identifier: GPL-3.0-or-later
-mpu6050.py - Interface for MPU6050 IMU
-Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
-"""
+# SPDX-License-Identifier: GPL-3.0-or-later
+# mpu6050.py - Interface for MPU6050 IMU
+# Copyright (C) 2023-2024 Jeannette Circe <jett@circe.com>
 
 from machine import I2C
 

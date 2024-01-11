@@ -1,8 +1,6 @@
-"""
-SPDX-License-Identifier: GPL-3.0-or-later
-odom.py - Interface for single and directional encoder
-Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
-"""
+# SPDX-License-Identifier: GPL-3.0-or-later
+# odom.py - Interface for single and directional encoder
+# Copyright (C) 2023-2024 Jeannette Circe <jett@circe.com>
 
 from machine import Pin
 
