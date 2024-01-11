@@ -1,3 +1,9 @@
+"""
+SPDX-License-Identifier: GPL-3.0-or-later
+rcc_library.py - Interface for Raft Peripheral Setup
+Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
+"""
+
 from machine import Pin, ADC, I2C
 from include.rcc_pins import Pins
 from utime import sleep

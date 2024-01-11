@@ -1,4 +1,8 @@
-
+"""
+SPDX-License-Identifier: GPL-3.0-or-later
+differentiator.py - Differentiates a value
+Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
+"""
 class Differentiator():
     def __init__(self, sigma, ts):
         self.sigma = sigma
