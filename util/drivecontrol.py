@@ -1,14 +1,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # drivecontrol.py - velocity & orientation control for RCC
 # Copyright (C) 2023-2024  Jeannette Circe <jett@circe.com>
-
+from machine import Timer
+from include.rcc_pins import Pins
+from include.rcc_library import Raft
+from include.pwm_helper import Motors
+from util.pidcontrol import PID_Control
 from util.differentiator import Differentiator
 from sensors.odom import Directional_Odom
-from include.rcc_pins import Pins
-from machine import Timer
-from include.pwm_helper import Motors
-from include.rcc_library import Raft
-from util.pidcontrol import PID_Control
 from sensors.mpu6050 import MPU6050
 import _thread
 
