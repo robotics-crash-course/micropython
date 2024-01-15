@@ -10,7 +10,6 @@ from include.pwm_helper import Motors
 from include.rcc_library import Raft
 from util.pidcontrol import PID_Control
 from sensors.mpu6050 import MPU6050
-import time
 import _thread
 
 class Controller:
@@ -129,27 +128,6 @@ class Controller:
         self.desired_velocity = 0
         self.desired_theta += 180
 
-
-
-mycontroller = Controller()
-mycontroller.start()
-
-while True:
-    mycontroller.drive_forwards()
-    print("forwards")
-    time.sleep_ms(3000)
-
-    mycontroller.left_turn()
-    print("left turn")
-    time.sleep_ms(2000)
-
-    mycontroller.drive_backwards()
-    print("backwards")
-    time.sleep_ms(2000)
-
-    mycontroller.stop()
-    print("stopped")
-    time.sleep(1000000)
         
     
 
