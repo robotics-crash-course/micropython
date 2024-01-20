@@ -10,6 +10,7 @@ from util.differentiator import Differentiator
 from sensors.odom import Directional_Odom
 from sensors.mpu6050 import MPU6050
 import _thread
+import utime
 
 class Controller:
     def __init__(self):
@@ -34,7 +35,7 @@ class Controller:
         self.right_differentiator = Differentiator(0.05, 0.02)
         self.left_velocity_control = PID_Control(0.3, 0, 0, 0.02, 0.1, -100, 100, False, True)
         self.right_velocity_control = PID_Control(0.3, 0, 0, 0.02, 0.1, -100, 100, False, True)
-        self.orientation_control = PID_Control(5, 0, 0, 0.02, 0.05, -100, 100, False, True)
+        self.orientation_control = PID_Control(7, 0, 0, 0.02, 0.05, -100, 100, False, True)
 
     def controller_callback(self, timer):
         '''
@@ -112,6 +113,7 @@ class Controller:
         '''
         self.desired_velocity = 0
         self.desired_theta += 90
+        utime.sleep_ms(4000)
 
     def right_turn(self):
         '''
@@ -119,6 +121,7 @@ class Controller:
         '''
         self.desired_velocity = 0
         self.desired_theta -= 90
+        utime.sleep_ms(4000)
 
     def u_turn(self):
         '''
@@ -126,14 +129,5 @@ class Controller:
         '''
         self.desired_velocity = 0
         self.desired_theta += 180
-
-        
-    
-
-
-      
-
-
-
-
+        utime.sleep_ms(6000)
 
