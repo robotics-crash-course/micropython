@@ -19,6 +19,7 @@ class PID_Control:
         self.deadband_voltage_lower = 0
         self.deadband_voltage_upper = 0
         self.integrator = 0
+        self.error = 0
         self.error_dot = 0
         self.error_d1 = 0
         self.y_dot = 0
