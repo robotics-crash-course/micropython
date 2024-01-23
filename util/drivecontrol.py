@@ -24,6 +24,8 @@ class Controller:
         self.right_odom = Directional_Odom()
         self.right_odom.setup(Pins.RIGHT_DIR, Pins.RIGHT_INT)
         self.imu = MPU6050(self.raft.i2c_bus)
+        #state init
+        self.state = 0
         #variable inits
         self.theta = 0
         self.desired_theta = 0
@@ -35,7 +37,8 @@ class Controller:
         self.right_differentiator = Differentiator(0.05, 0.02)
         self.left_velocity_control = PID_Control(0.3, 0, 0, 0.02, 0.1, -100, 100, False, True)
         self.right_velocity_control = PID_Control(0.3, 0, 0, 0.02, 0.1, -100, 100, False, True)
-        self.orientation_control = PID_Control(7, 0, 0, 0.02, 0.05, -100, 100, False, True)
+        self.orientation_control = PID_Control(7, 0, 0, 0.02, 0.1, -100, 100, False, True)
+
 
     def controller_callback(self, timer):
         '''
@@ -52,8 +55,16 @@ class Controller:
         self.left_controller_output = self.left_velocity_control.pid(self.desired_velocity, self.left_velocity)
         self.right_controller_output = self.right_velocity_control.pid(self.desired_velocity, self.right_velocity)
         self.orientation_controller_output = self.orientation_control.pid(self.desired_theta, self.theta)
-        #set motor power
-        self.motors.set_power(self.saturate_motor_speed(self.left_controller_output-self.orientation_controller_output), self.saturate_motor_speed(self.right_controller_output+self.orientation_controller_output))
+        #checks if in a turning state
+        if self.state == 0:
+            #if not turning, use both vel and orientation controllers
+            self.motors.set_power(self.saturate_motor_speed(self.left_controller_output-self.orientation_controller_output), self.saturate_motor_speed(self.right_controller_output+self.orientation_controller_output))
+        elif self.state == 1:
+            #if turning, use only orientation controller
+            self.motors.set_power(self.saturate_motor_speed(-self.orientation_controller_output), self.saturate_motor_speed(self.orientation_controller_output))
+            if abs(self.orientation_control.error) < 20:
+                self.state = 0
+
 
     def saturate_motor_speed(self, unsat):
         '''
@@ -111,23 +122,23 @@ class Controller:
         '''
         sets desired velocity to 0, increases desired orientation by 90 deg
         '''
+        self.state = 1
         self.desired_velocity = 0
         self.desired_theta += 90
-        utime.sleep_ms(4000)
 
     def right_turn(self):
         '''
         sets desired velocity to 0, decreases desired orientation by 90 deg
         '''
+        self.state = 1
         self.desired_velocity = 0
         self.desired_theta -= 90
-        utime.sleep_ms(4000)
 
     def u_turn(self):
         '''
         sets desired velocity to 0, increases desired orientation by 190 deg
         '''
+        self.state = 1
         self.desired_velocity = 0
         self.desired_theta += 180
-        utime.sleep_ms(6000)
 
