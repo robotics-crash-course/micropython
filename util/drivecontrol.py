@@ -35,9 +35,9 @@ class Controller:
         #class inits
         self.left_differentiator = Differentiator(0.05, 0.02)
         self.right_differentiator = Differentiator(0.05, 0.02)
-        self.left_velocity_control = PID_Control(0.3, 0, 0, 0.02, 0.1, -100, 100, False, True)
-        self.right_velocity_control = PID_Control(0.3, 0, 0, 0.02, 0.1, -100, 100, False, True)
-        self.orientation_control = PID_Control(7, 0, 0, 0.02, 0.1, -100, 100, False, True)
+        self.left_velocity_control = PID_Control(0.3, 0.01, 0, 0.02, 0.1, -100, 100, False, True)
+        self.right_velocity_control = PID_Control(0.3, 0.01, 0, 0.02, 0.1, -100, 100, False, True)
+        self.orientation_control = PID_Control(7, 1, 0, 0.02, 0.1, -100, 100, False, True)
 
 
     def controller_callback(self, timer):
@@ -110,13 +110,13 @@ class Controller:
         '''
         sets desired velocity to 500
         '''
-        self.desired_velocity = 500
+        self.desired_velocity = 550
 
     def drive_backwards(self):
         '''
         sets desired velocity to -500
         '''
-        self.desired_velocity = -500
+        self.desired_velocity = -550
 
     def left_turn(self):
         '''
