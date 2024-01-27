@@ -127,7 +127,9 @@ class Controller:
         self.desired_theta += 90
 
     def custom_left_turn(self, angle):
-        "increases desired orientation by input angle (in degrees)"
+        '''
+        increases desired orientation by input angle (in degrees)
+        '''
         self.state = 1
         self.desired_velocity = 0
         self.desired_theta += angle
