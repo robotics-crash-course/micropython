@@ -10,7 +10,6 @@ from util.differentiator import Differentiator
 from sensors.odom import Directional_Odom
 from sensors.mpu6050 import MPU6050
 import _thread
-import utime
 
 class Controller:
     def __init__(self):
@@ -37,7 +36,7 @@ class Controller:
         self.right_differentiator = Differentiator(0.05, 0.02)
         self.left_velocity_control = PID_Control(0.3, 0.01, 0, 0.02, 0.1, -100, 100, False, True)
         self.right_velocity_control = PID_Control(0.3, 0.01, 0, 0.02, 0.1, -100, 100, False, True)
-        self.orientation_control = PID_Control(7, 1, 0, 0.02, 0.1, -100, 100, False, True)
+        self.orientation_control = PID_Control(5.5, 0.5, 0.5, 0.02, 0.1, -100, 100, False, True)
 
 
     def controller_callback(self, timer):
@@ -55,6 +54,7 @@ class Controller:
         self.left_controller_output = self.left_velocity_control.pid(self.desired_velocity, self.left_velocity)
         self.right_controller_output = self.right_velocity_control.pid(self.desired_velocity, self.right_velocity)
         self.orientation_controller_output = self.orientation_control.pid(self.desired_theta, self.theta)
+
         #checks if in a turning state
         if self.state == 0:
             #if not turning, use both vel and orientation controllers
@@ -62,7 +62,7 @@ class Controller:
         elif self.state == 1:
             #if turning, use only orientation controller
             self.motors.set_power(self.saturate_motor_speed(-self.orientation_controller_output), self.saturate_motor_speed(self.orientation_controller_output))
-            if abs(self.orientation_control.error) < 20:
+            if abs(self.orientation_control.error) < 10:
                 self.state = 0
 
 
@@ -108,35 +108,49 @@ class Controller:
 
     def drive_forwards(self):
         '''
-        sets desired velocity to 500
+        sets desired velocity to 600
         '''
-        self.desired_velocity = 550
+        self.desired_velocity = 600
 
     def drive_backwards(self):
         '''
-        sets desired velocity to -500
+        sets desired velocity to -600
         '''
-        self.desired_velocity = -550
+        self.desired_velocity = -600
 
     def left_turn(self):
         '''
-        sets desired velocity to 0, increases desired orientation by 90 deg
+        sets desired velocity to 0, increases desired orientation by 90 degrees
         '''
         self.state = 1
         self.desired_velocity = 0
         self.desired_theta += 90
 
+    def custom_left_turn(self, angle):
+        "increases desired orientation by input angle (in degrees)"
+        self.state = 1
+        self.desired_velocity = 0
+        self.desired_theta += angle
+
     def right_turn(self):
         '''
-        sets desired velocity to 0, decreases desired orientation by 90 deg
+        sets desired velocity to 0, decreases desired orientation by 90 degrees
         '''
         self.state = 1
         self.desired_velocity = 0
         self.desired_theta -= 90
 
+    def custom_right_turn(self, angle):
+        '''
+        decreases desired orientation by 90 degrees
+        '''
+        self.state = 1
+        self.desired_velocity = 0
+        self.desired_theta -= angle
+
     def u_turn(self):
         '''
-        sets desired velocity to 0, increases desired orientation by 190 deg
+        sets desired velocity to 0, increases desired orientation by 180 deg
         '''
         self.state = 1
         self.desired_velocity = 0
