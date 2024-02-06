@@ -12,7 +12,7 @@ class Servo:
         self.pwm.freq(50)
         return f"SERVO SETUP ON {self.servo_pin}"
 
-    def set_position(self, pos_scaled):
+    def set_position(self, pos_scaled:int):
         """
         Takes in values 0-180, scales to left to right of servo
         """
@@ -45,7 +45,7 @@ class Motors:
 
         return f"LEFT SETUP ON {self.ena_pin},{self.in1_pin},{self.in2_pin}, RIGHT SETUP ON {self.in3_pin},{self.in4_pin},{self.enb_pin}"
 
-    def set_power(self, lp, rp):
+    def set_power(self, lp:int, rp:int):
         """
         takes in 0-100 -> scaled for 0-65500 (16 bit)
         """

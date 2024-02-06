@@ -66,7 +66,7 @@ class Controller:
                 self.state = 0
 
 
-    def saturate_motor_speed(self, unsat):
+    def saturate_motor_speed(self, unsat:float)->int:
         '''
         saturates output from the controllers bc motor power takes integer -100 to 100
         '''
@@ -84,13 +84,13 @@ class Controller:
         '''
         self.second_thread = _thread.start_new_thread(self.drive_thread, ())
     
-    def set_speed(self, vel):
+    def set_speed(self, vel:float):
         '''
         changed desired speed of both wheels
         '''
         self.desired_velocity = vel
 
-    def set_theta(self, des_theta):
+    def set_theta(self, des_theta:float):
         '''
         set desired orientation
         '''
@@ -126,7 +126,7 @@ class Controller:
         self.desired_velocity = 0
         self.desired_theta += 90
 
-    def custom_left_turn(self, angle):
+    def custom_left_turn(self, angle:float):
         '''
         increases desired orientation by input angle (in degrees)
         '''
@@ -142,7 +142,7 @@ class Controller:
         self.desired_velocity = 0
         self.desired_theta -= 90
 
-    def custom_right_turn(self, angle):
+    def custom_right_turn(self, angle:float):
         '''
         decreases desired orientation by 90 degrees
         '''

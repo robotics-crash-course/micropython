@@ -30,7 +30,7 @@ class Raft:
         self.button_pin = button_pin_input
         self.button = Pin(self.button_pin, Pin.IN, Pin.PULL_UP)
 
-    def get_button(self):
+    def get_button(self) -> bool:
         #true if GPIO LOW
         return self.button.value() == 0
 
@@ -38,10 +38,10 @@ class Raft:
         self.button.irq(trigger=Pin.IRQ_FALLING, handler=self.increase_counter)
         self.counter = 0
 
-    def increase_counter(self, pin):
+    def increase_counter(self):
         self.counter += 1
 
-    def button_counter(self):
+    def button_counter(self) -> int:
         return self.counter
 
     def setup_pot(self, pot_pin_input=Pins.POT):

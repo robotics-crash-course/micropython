@@ -14,10 +14,10 @@ class Odom:
     def callback(self, pin):
         self.count +=1
 
-    def get_count(self):
+    def get_count(self) ->int:
         return self.count
 
-    def reset_count(self):
+    def reset_count(self)->int:
         self.count = 0
         return self.count
     
@@ -38,9 +38,9 @@ class Directional_Odom:
         else:
             self.count += 1
 
-    def get_count(self):
+    def get_count(self)->int:
         return self.count
     
-    def reset_count(self):
+    def reset_count(self)->int:
         self.count = 0
         return self.count
